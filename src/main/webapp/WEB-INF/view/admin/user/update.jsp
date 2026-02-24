@@ -16,6 +16,17 @@
                 <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
                 <link href="/resources/css/styles.css" rel="stylesheet" />
                 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+                <script>
+                    $(document).ready(() => {
+                        const avatarFile = $("#avatarFile");
+                        avatarFile.change(function (e) {
+                            const imgURL = URL.createObjectURL(e.target.files[0]);
+                            $("#avatarPreview").attr("src", imgURL);
+                            $("#avatarPreview").css({ "display": "block" });
+                        });
+                    });
+                </script>
             </head>
 
             <body class="sb-nav-fixed">
@@ -31,13 +42,15 @@
                                                 <div class="col-md-6 col-12 mx-auto ">
                                                     <h1>Update User</h1>
                                                     <form:form action="/admin/user/update" method="post"
-                                                        modelAttribute="user">
+                                                        modelAttribute="user" enctype="multipart/form-data">
 
+                                                        <!-- hide user ID div -->
                                                         <div class="mb-3" hidden>
                                                             <label for="id" class="form-label">ID</label>
                                                             <form:input type="text" readonly="true" class="form-control"
                                                                 id="id" name="id" path="id" />
                                                         </div>
+
 
                                                         <div class="mb-3">
                                                             <label for="email" class="form-label">Email</label>
@@ -52,16 +65,54 @@
                                                             <form:input type="text" class="form-control" id="fullName"
                                                                 name="fullName" path="fullName" />
                                                         </div>
-                                                        <div class="mb-3">
-                                                            <label for="address" class="form-label">Address</label>
-                                                            <form:input type="text" class="form-control" id="address"
-                                                                name="address" path="address" />
+
+
+
+
+                                                        <div class="d-flex gap-4">
+                                                            <div class="w-40">
+                                                                <div class="mb-3">
+                                                                    <label for="address"
+                                                                        class="form-label">Address</label>
+                                                                    <form:input type="text" class="form-control"
+                                                                        id="address" name="address" path="address" />
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="phone" class="form-label">Phone</label>
+                                                                    <form:input type="text" class="form-control"
+                                                                        id="phone" name="phone" path="phone" />
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="role" class="form-label">Role</label>
+                                                                    <form:select class="form-select" id="role"
+                                                                        name="role" path="role.name">
+                                                                        <form:option value="ADMIN" label="ADMIN" />
+                                                                        <form:option value="USER" label="USER" />
+                                                                    </form:select>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="mb-3 w-60">
+                                                                <label for="avatarFile"
+                                                                    class="form-label">Avatar:</label>
+                                                                <input class="form-control" type="file" id="avatarFile"
+                                                                    name="file" accept=".png, .jpg, .jpeg" />
+
+                                                                <c:if test="${user.avatar != null}">
+                                                                    <img src="/resources/images/avatar/${user.avatar}"
+                                                                        id="avatarPreview" alt="Avatar Preview"
+                                                                        style="max-width: 100%; height: 200px; object-fit: cover; margin: 20px auto; border: 1px solid #ddd; border-radius: 5px;">
+                                                                </c:if>
+
+                                                                <div class="col-12 text-center">
+                                                                    <img id="avatarPreview" src="" alt="Avatar Preview"
+                                                                        style="display: none; max-width: 100%; height: 200px; object-fit: cover; margin: 20px auto; border: 1px solid #ddd; border-radius: 5px;">
+                                                                </div>
+
+                                                            </div>
                                                         </div>
-                                                        <div class="mb-3">
-                                                            <label for="phone" class="form-label">Phone</label>
-                                                            <form:input type="text" class="form-control" id="phone"
-                                                                name="phone" path="phone" />
-                                                        </div>
+
+
                                                         <button type="submit" class="btn btn-primary">Submit</button>
                                                     </form:form>
                                                 </div>

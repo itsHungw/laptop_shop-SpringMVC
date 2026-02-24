@@ -26,31 +26,63 @@
                                 <div class="container mt-5  ">
                                     <div class="container mt-2 mb-5">
 
-                                        <div class="d-flex justify-content-between">
-                                            <h1>User Detail</h1>
+                                        <div class="card shadow-sm">
+                                            <div class="card-body">
+                                                <div class="row align-items-center">
+
+                                                    <!-- Avatar -->
+                                                    <div class="col-md-4 text-center mb-3">
+                                                        <c:choose>
+                                                            <c:when test="${user.avatar != null}">
+                                                                <img src="/images/avatar/${user.avatar}"
+                                                                    class="rounded-circle border"
+                                                                    style="width:250px;height:250px;object-fit:cover;">
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <img src="/images/default-avatar.png"
+                                                                    class="rounded-circle border"
+                                                                    style="width:250px;height:250px;object-fit:cover;">
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </div>
+
+                                                    <!-- User Info -->
+                                                    <div class="col-md-8">
+                                                        <h4 class="mb-3">${user.fullName}</h4>
+
+                                                        <p><strong>Email:</strong> ${user.email}</p>
+                                                        <p><strong>Phone:</strong> ${user.phone}</p>
+                                                        <p><strong>Address:</strong> ${user.address}</p>
+
+                                                        <p>
+                                                            <strong>Role:</strong>
+                                                            <span class="badge 
+                        ${user.role.name == 'ADMIN' ? 'bg-danger' : 
+                          user.role.name == 'STAFF' ? 'bg-warning text-dark' : 
+                          'bg-secondary'}">
+                                                                ${user.role.name}
+                                                            </span>
+                                                        </p>
+
+                                                        <div class="mt-3">
+                                                            <a href="/admin/user" class="btn btn-secondary btn-sm">
+                                                                Back
+                                                            </a>
+                                                            <a href="/admin/user/update/${user.id}"
+                                                                class="btn btn-primary btn-sm">
+                                                                Update
+                                                            </a>
+                                                            <a href="/admin/user/delete/${user.id}"
+                                                                class="btn btn-danger btn-sm">
+                                                                Delete
+                                                            </a>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
                                         </div>
 
-                                        <div class="mb-5">
-                                            <nav aria-label="breadcrumb">
-                                                <ol class="breadcrumb fs-5 text">
-                                                    <li class="breadcrumb-item"><a href="/admin">Home</a></li>
-                                                    <li class="breadcrumb-item"><a href="/admin/user">Users</a></li>
-                                                    <li class="breadcrumb-item active" aria-current="page">User Detail
-                                                        id: ${user.id}</li>
-                                                </ol>
-                                            </nav>
-                                        </div>
-                                        <div class="card mx-auto" style="width: 60%;">
-                                            <div class="card-header">
-                                                User Detail ${user.id}
-                                            </div>
-                                            <ul class="list-group list-group-flush">
-                                                <li class="list-group-item">User Name: ${user.fullName}</li>
-                                                <li class="list-group-item">Email: ${user.email}</li>
-                                                <li class="list-group-item">Phone: ${user.phone}</li>
-                                                <li class="list-group-item">Address: ${user.address}</li>
-                                            </ul>
-                                        </div>
                                     </div>
 
 
