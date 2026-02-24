@@ -1,10 +1,5 @@
 package com.vinhung.laptopshop.controller.admin;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -52,8 +47,9 @@ public class UserController {
     }
 
     @PostMapping("/update")
-    public String submitUpdate(Model model, @ModelAttribute("user") User user) {
-        userService.updateUser(user);
+    public String submitUpdate(Model model, @ModelAttribute("user") User user,
+            @RequestParam("file") MultipartFile file) {
+        userService.updateUser(user, file);
         return "redirect:/admin/user";
     }
 
@@ -80,14 +76,7 @@ public class UserController {
     public String submit(
             Model model, @ModelAttribute("newUser") User user,
             @RequestParam("file") MultipartFile file) {
-
-        String avatar = uploadFileService.uploadFile(file, "avatar");
-        Role role = roleService.getRoleByName(user.getRole().getName());
-        String hashPassword = this.passwordEncoder.encode(user.getPassword());
-        user.setAvatar(avatar);
-        user.setRole(role);
-        user.setPassword(hashPassword);
-        userService.save(user);
+        userService.save(user, file);
         return "redirect:/admin/user";
     }
 

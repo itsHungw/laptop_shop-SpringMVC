@@ -45,6 +45,7 @@
                                                 <th scope="col">User Name</th>
                                                 <th scope="col">Email</th>
                                                 <th scope="col">Phone</th>
+                                                <th scope="col">Role</th>
                                                 <th scope="col" class="text-center">Action</th>
                                             </tr>
                                         </thead>
@@ -55,6 +56,7 @@
                                                     <td>${user.fullName}</td>
                                                     <td>${user.email}</td>
                                                     <td>${user.phone}</td>
+                                                    <td>${user.role.name}</td>
                                                     <td class="d-flex  justify-content-evenly">
                                                         <a href="/admin/user/${user.id}"
                                                             class="btn btn-success">View</a>
