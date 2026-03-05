@@ -42,36 +42,68 @@
                                                 modelAttribute="newProduct" enctype="multipart/form-data">
                                                 <div class="row g-3">
                                                     <div class="col-md-6">
-                                                        <label for="name" class="form-label">Name:</label>
-                                                        <form:input type="text" class="form-control" id="name"
+                                                        <c:set var="nameHasBindError">
+                                                            <form:errors path="name" />
+                                                        </c:set>
+                                                        <label for="name" class="form-label">Product name:</label>
+                                                        <form:input type="text"
+                                                            class="form-control ${not empty nameHasBindError? 'is-invalid':''}"
                                                             path="name" />
+                                                        <form:errors path="name" cssClass="invalid-feedback" />
                                                     </div>
+
+                                                    <!-- <div class="col-md-6">
+                                                        <c:set var="nameHasBindError">
+                                                            <form:errors path="price" />
+                                                        </c:set>
+                                                        <label for="price" class="form-label">Price:</label>
+                                                        <form:input type="number"
+                                                            class="form-control ${not empty nameHasBindError? 'is-invalid':''}"
+                                                            path="price" />
+                                                        <form:errors path="price" cssClass="invalid-feedback" />
+                                                    </div> -->
 
                                                     <div class="col-md-6">
                                                         <label for="price" class="form-label">Price:</label>
-                                                        <form:input type="number" class="form-control" id="price"
-                                                            path="price" />
+                                                        <form:input type="number" class="form-control" path="price" />
+                                                        <form:errors path="price" cssClass="invalid-feedback" />
                                                     </div>
 
                                                     <div class="col-md-12">
+                                                        <c:set var="nameHasBindError">
+                                                            <form:errors path="detailDesc" />
+                                                        </c:set>
                                                         <label for="detailDesc" class="form-label">Detail
                                                             Description:</label>
-                                                        <form:textarea class="form-control" id="detailDesc"
-                                                            path="detailDesc" />
+                                                        <form:textarea
+                                                            class="form-control ${not empty nameHasBindError? 'is-invalid':''}"
+                                                            id="detailDesc" path="detailDesc" />
+                                                        <form:errors path="detailDesc" cssClass="invalid-feedback" />
                                                     </div>
 
                                                     <div class="col-md-6">
+                                                        <c:set var="nameHasBindError">
+                                                            <form:errors path="quantity" />
+                                                        </c:set>
                                                         <label for="quantity" class="form-label">Quantity:</label>
-                                                        <form:input type="text" class="form-control" id="quantity"
-                                                            path="quantity" />
+                                                        <form:input type="text"
+                                                            class="form-control ${not empty nameHasBindError? 'is-invalid':''}"
+                                                            id="quantity" path="quantity" />
+                                                        <form:errors path="quantity" cssClass="invalid-feedback" />
                                                     </div>
 
                                                     <div class="col-md-6">
+                                                        <c:set var="nameHasBindError">
+                                                            <form:errors path="shortDesc" />
+                                                        </c:set>
                                                         <label for="shortDesc" class="form-label">Short
                                                             Description:</label>
-                                                        <form:input type="text" class="form-control" id="shortDesc"
-                                                            path="shortDesc" />
+                                                        <form:input type="text"
+                                                            class="form-control ${not empty nameHasBindError? 'is-invalid':''}"
+                                                            id="shortDesc" path="shortDesc" />
+                                                        <form:errors path="shortDesc" cssClass="invalid-feedback" />
                                                     </div>
+
 
                                                     <div class="col-md-6">
                                                         <label for="factory" class="form-label">Factory:</label>
@@ -79,6 +111,11 @@
                                                             <form:option value="Apple(mac)">Apple(mac)</form:option>
                                                             <form:option value="MSI">MSI</form:option>
                                                             <form:option value="Acer">Acer</form:option>
+                                                            <form:option value="Dell">Dell</form:option>
+                                                            <form:option value="HP">HP</form:option>
+                                                            <form:option value="Lenovo">Lenovo</form:option>
+                                                            <form:option value="Asus">Asus</form:option>
+                                                            <form:option value="Other">Other</form:option>
                                                         </form:select>
                                                     </div>
 
@@ -93,7 +130,7 @@
                                                     <div class="col-md-6">
                                                         <label for="imageFile" class="form-label">Image:</label>
                                                         <input class="form-control" type="file" id="imageFile"
-                                                            name="imageFile" accept=".png, .jpg, .jpeg" />
+                                                            name="imageFile" accept=".png, .jpg, .jpeg, .webp" />
                                                     </div>
 
                                                     <div class="col-md-6 text-center">

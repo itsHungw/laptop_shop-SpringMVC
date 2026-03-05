@@ -1,10 +1,15 @@
 package com.vinhung.laptopshop.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "products")
@@ -14,14 +19,33 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    @Size(min = 4, max = 100, message = "Name must be between 4 and 100 characters")
     private String name;
+
+    @NotNull
+    @DecimalMin(value = "10", inclusive = false, message = "Price must be greater than 10")
     private double price;
+
     private String image;
+
+    @NotNull
+    @Size(min = 10, message = "Detail description is required")
+    @Column(columnDefinition = "MEDIUMTEXT")
     private String detailDesc;
+
+    @NotNull
+    @Size(min = 10, message = "Short description is required")
     private String shortDesc;
+
+    @NotNull
+    @Min(value = 1, message = "Quantity must be greater than or equal to 1")
     private long quantity;
+
     private long sold;
+
     private String factory;
+
     private String target;
 
     public Long getId() {

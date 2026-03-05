@@ -2,6 +2,7 @@ package com.vinhung.laptopshop.controller.admin;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.vinhung.laptopshop.domain.Product;
 import com.vinhung.laptopshop.service.ProductService;
+
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/admin/product")
@@ -30,8 +33,12 @@ public class ProductController {
     }
 
     @PostMapping("/create")
-    public String createProduct(@ModelAttribute("newProduct") Product newProduct,
+    public String createProduct(@ModelAttribute("newProduct") @Valid Product newProduct,
+            BindingResult newProductBindingResult,
             @RequestParam("imageFile") MultipartFile imageFile) {
+        if (newProductBindingResult.hasErrors()) {
+            return "admin/product/create";
+        }
         this.productService.save(newProduct, imageFile);
         return "redirect:/admin/product";
     }
