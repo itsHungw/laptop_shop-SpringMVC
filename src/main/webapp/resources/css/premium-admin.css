@@ -1,0 +1,112 @@
+/* Premium Admin Styles */
+:root {
+    --card-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);
+    --hover-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    --border-radius: 12px;
+}
+
+.card {
+    border: none;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: var(--hover-shadow);
+}
+
+.card-header {
+    background: var(--primary-gradient);
+    color: white;
+    border-top-left-radius: var(--border-radius) !important;
+    border-top-right-radius: var(--border-radius) !important;
+    font-weight: 600;
+    padding: 1.25rem;
+}
+
+.btn-premium {
+    background: var(--primary-gradient);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 500;
+    transition: transform 0.2s;
+}
+
+.btn-premium:hover {
+    transform: translateY(-2px);
+    color: white;
+    filter: brightness(1.1);
+}
+
+.table-premium thead {
+    background: #f8f9fa;
+}
+
+.table-premium th {
+    border-top: none;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+    color: #495057;
+}
+
+.status-badge {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.action-btn {
+    width: 35px;
+    height: 35px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    margin: 0 5px;
+    transition: all 0.2s;
+}
+
+.action-btn:hover {
+    transform: scale(1.1);
+}
+
+.breadcrumb-item a {
+    text-decoration: none;
+    color: #6c757d;
+}
+
+.breadcrumb-item.active {
+    color: #4154f1;
+    font-weight: 600;
+}
+
+.page-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #012970;
+}
+
+.form-label {
+    font-weight: 600;
+    color: #444;
+}
+
+.form-control:focus,
+.form-select:focus {
+    box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.25);
+    border-color: #667eea;
+}
+
+.img-preview-container {
+    border: 2px dashed #ddd;
+    border-radius: var(--border-radius);
+    padding: 15px;
+    text-align: center;
+    background: #fcfcfc;
+}
