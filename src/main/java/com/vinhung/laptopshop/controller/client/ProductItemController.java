@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.vinhung.laptopshop.domain.Cart;
 import com.vinhung.laptopshop.domain.CartDetail;
+import com.vinhung.laptopshop.domain.Order;
 import com.vinhung.laptopshop.domain.User;
 import com.vinhung.laptopshop.service.ProductService;
 
@@ -116,6 +117,19 @@ public class ProductItemController {
     @GetMapping("/thank-you")
     public String getThankYouPage(Model model) {
         return "client/cart/thank-you";
+    }
+
+    @GetMapping("/order-history")
+    public String getOrderHistoryPage(Model model, HttpServletRequest request) {
+        User currentUser = new User();// null
+        HttpSession session = request.getSession(false);
+        long id = (long) session.getAttribute("id");
+        currentUser.setId(id);
+
+        List<Order> orders = this.productService.fetchOrderByUser(currentUser);
+        model.addAttribute("orders", orders);
+
+        return "client/cart/order-history";
     }
 
     @PostMapping("/api/update-cart-quantity")
