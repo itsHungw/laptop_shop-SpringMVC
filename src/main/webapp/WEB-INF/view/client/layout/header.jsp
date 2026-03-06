@@ -32,11 +32,13 @@
                             <div class="d-flex m-3 me-0">
 
                                 <c:if test="${not empty pageContext.request.userPrincipal}">
-                                    <a href="#" class="position-relative me-4 my-auto">
+                                    <a href="/cart" class="position-relative me-4 my-auto">
                                         <i class="fa fa-shopping-bag fa-2x"></i>
                                         <span
                                             class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
-                                            style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
+                                            style="top: -5px; left: 15px; height: 20px; min-width: 20px;">
+                                            ${sessionScope.sum}
+                                        </span>
                                     </a>
                                     <div class="dropdown my-auto">
                                         <a href="#" class="dropdown" role="button" id="dropdownMenuLink"
@@ -50,7 +52,7 @@
 
                                             <li class="d-flex align-items-center flex-column" style="min-width: 300px;">
                                                 <img style="width: 150px; height: 150px; border-radius: 50%; overflow: hidden;"
-                                                    src="/images/product/1711078092373-asus-01.png" />
+                                                    src="/images/avatar/${sessionScope.avatar}" />
                                                 <div class="text-center my-3">
                                                     <c:if test="${not empty pageContext.request.userPrincipal}">
                                                         User
@@ -58,8 +60,8 @@
                                                     </c:if>
                                                 </div>
                                             </li>
-                                            <li><a class="dropdown-item" href="#">Quản lý tài khoản</a></li>
-                                            <li><a class="dropdown-item" href="#">Lịch sử mua hàng</a></li>
+                                            <li><a class="dropdown-item" href="/profile">Quản lý tài khoản</a></li>
+                                            <li><a class="dropdown-item" href="/order-history">Lịch sử mua hàng</a></li>
                                             <li>
                                                 <hr class="dropdown-divider">
                                             </li>

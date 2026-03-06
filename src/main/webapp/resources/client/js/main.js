@@ -138,14 +138,66 @@
         if (button.hasClass('btn-plus')) {
             var newVal = parseFloat(oldValue) + 1;
         } else {
-            if (oldValue > 0) {
+            if (oldValue > 1) {
                 var newVal = parseFloat(oldValue) - 1;
             } else {
-                newVal = 0;
+                newVal = 1;
             }
         }
         button.parent().parent().find('input').val(newVal);
+
+        // AJAX update
+        const input = button.parent().parent().find('input');
+        updateCartAjax(input, newVal);
     });
+
+    $('.quantity input').on('change', function () {
+        const input = $(this);
+        const newVal = input.val();
+        if (newVal < 1) {
+            input.val(1);
+            return;
+        }
+        updateCartAjax(input, newVal);
+    });
+
+    function updateCartAjax(input, newVal) {
+        const cartDetailId = input.attr('data-cart-detail-id');
+        const price = input.attr('data-cart-detail-price');
+        const token = $("meta[name='_csrf']").attr("content");
+        const header = $("meta[name='_csrf_header']").attr("content");
+
+        $.ajax({
+            url: "/api/update-cart-quantity",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            type: "POST",
+            data: { id: cartDetailId, quantity: newVal },
+            success: function (res) {
+                // update row total
+                const rowTotal = newVal * price;
+                $(`p[data-cart-detail-id='${cartDetailId}']`).html(formatNumber(rowTotal) + " đ");
+
+                // update grand total
+                let grandTotal = 0;
+                $("input[data-cart-detail-id]").each(function () {
+                    const q = $(this).val();
+                    const p = $(this).attr("data-cart-detail-price");
+                    grandTotal += q * p;
+                });
+                $(`p[data-cart-total-price]`).html(formatNumber(grandTotal) + " đ");
+            },
+            error: function (error) {
+                // handle error
+                console.log("error: ", error);
+            }
+        });
+    }
+
+    function formatNumber(n) {
+        return n.toLocaleString('vi-VN', { minimumFractionDigits: 0 });
+    }
 
 })(jQuery);
 
