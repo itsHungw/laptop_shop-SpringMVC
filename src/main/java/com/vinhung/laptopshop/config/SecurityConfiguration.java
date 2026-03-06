@@ -2,9 +2,7 @@ package com.vinhung.laptopshop.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -44,17 +42,18 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public CustomSuccessHandler customSuccessHandler() {
-        return new CustomSuccessHandler();
+    public CustomSuccessHandler customSuccessHandler(UserService userService) {
+        return new CustomSuccessHandler(userService);
     }
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain filterChain(HttpSecurity http,
+            UserService userService) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.INCLUDE)
                         .permitAll()
-                        .requestMatchers("/", "/register", "/login", "/client/**", "/css/**", "/js/**",
+                        .requestMatchers("/", "/register", "/login", "/product/**", "/client/**", "/css/**", "/js/**",
                                 "/resources/**", "/images/**")
                         .permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
@@ -63,7 +62,7 @@ public class SecurityConfiguration {
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
                         .failureUrl("/login?error")
-                        .successHandler(customSuccessHandler())
+                        .successHandler(customSuccessHandler(userService))
                         .permitAll())
                 .exceptionHandling(ex -> ex.accessDeniedPage("/access-denied"));
         return http.build();

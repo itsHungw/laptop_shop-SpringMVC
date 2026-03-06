@@ -11,11 +11,21 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import com.vinhung.laptopshop.domain.User;
+import com.vinhung.laptopshop.service.UserService;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 public class CustomSuccessHandler implements AuthenticationSuccessHandler {
+
+    private final UserService userService;
+
+    public CustomSuccessHandler(UserService userService) {
+        this.userService = userService;
+    }
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
@@ -27,6 +37,20 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 
         if (response.isCommitted()) {
             return;
+        }
+
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            String email = authentication.getName();
+            User user = this.userService.findByEmail(email);
+            if (user != null) {
+                session.setAttribute("fullName", user.getFullName());
+                session.setAttribute("avatar", user.getAvatar());
+                session.setAttribute("id", user.getId());
+                session.setAttribute("email", user.getEmail());
+                int sum = user.getCart() == null ? 0 : user.getCart().getSum();
+                session.setAttribute("sum", sum);
+            }
         }
 
         redirectStrategy.sendRedirect(request, response, targetUrl);
