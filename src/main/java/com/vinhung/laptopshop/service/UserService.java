@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.vinhung.laptopshop.domain.Role;
 import com.vinhung.laptopshop.domain.User;
+import com.vinhung.laptopshop.domain.dto.RegisterDto;
 import com.vinhung.laptopshop.repository.UserRepository;
 
 @Service
@@ -66,4 +67,25 @@ public class UserService {
         }
         return null;
     }
+
+    public User UserDtoRegister(RegisterDto registerDto) {
+
+        User user = new User();
+        user.setFullName(registerDto.getFirstName() + " " + registerDto.getLastName());
+        user.setEmail(registerDto.getEmail());
+        user.setPassword(this.passwordEncoder.encode(registerDto.getPassword()));
+        user.setRole(this.roleService.getRoleByName("USER"));
+        user.setAvatar("default.png");
+
+        return this.userRepository.save(user);
+    }
+
+    public boolean checkEmailExist(String email) {
+        return this.userRepository.existsByEmail(email);
+    }
+
+    public User findByEmail(String email) {
+        return this.userRepository.findByEmail(email);
+    }
+
 }

@@ -35,7 +35,6 @@ public class User {
     @Size(min = 3, message = "Full name must be at least 3 characters")
     private String fullName;
 
-    @NotNull
     private String address;
 
     private String phone;
