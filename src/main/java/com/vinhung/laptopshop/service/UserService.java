@@ -2,6 +2,8 @@ package com.vinhung.laptopshop.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,6 +34,10 @@ public class UserService {
         this.roleService = roleService;
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
+    }
+
+    public Page<User> getAllUser(Pageable pageable) {
+        return this.userRepository.findAll(pageable);
     }
 
     public List<User> getAllUser() {
@@ -106,4 +112,5 @@ public class UserService {
     public long countProduct() {
         return this.productRepository.count();
     }
+
 }
