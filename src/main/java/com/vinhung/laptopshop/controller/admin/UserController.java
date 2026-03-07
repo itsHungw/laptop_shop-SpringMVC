@@ -1,6 +1,7 @@
 package com.vinhung.laptopshop.controller.admin;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -98,13 +99,23 @@ public class UserController {
     }
 
     @GetMapping
-    public String list(Model model, @RequestParam(value = "page", defaultValue = "1") int page) {
-        Pageable pageable = PageRequest.of(page - 1, 5);
+    public String list(Model model, @RequestParam(value = "page", defaultValue = "1") Optional<String> page) {
+        int pageInt = 1;
+        try {
+            if (page.isPresent()) {
+                pageInt = Integer.parseInt(page.get());
+            } else {
+                pageInt = 1;
+            }
+        } catch (Exception e) {
+            pageInt = 1;
+        }
+        Pageable pageable = PageRequest.of(pageInt - 1, 5);
         Page<User> pageUser = userService.getAllUser(pageable);
         List<User> users = pageUser.getContent();
         model.addAttribute("users", users);
         model.addAttribute("totalPages", pageUser.getTotalPages());
-        model.addAttribute("currentPage", page);
+        model.addAttribute("currentPage", pageInt);
         return "admin/user/users";
     }
 }

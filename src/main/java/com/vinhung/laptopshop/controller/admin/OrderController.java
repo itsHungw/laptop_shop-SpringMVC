@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
 
 import com.vinhung.laptopshop.domain.Order;
 import com.vinhung.laptopshop.service.ProductService;
@@ -23,9 +27,23 @@ public class OrderController {
     }
 
     @GetMapping("/admin/order")
-    public String getOrderPage(Model model) {
-        List<Order> orders = this.productService.getAllOrders();
+    public String getOrderPage(Model model, @RequestParam("page") Optional<String> page) {
+        int pageInt = 1;
+        try {
+            if (page.isPresent()) {
+                pageInt = Integer.parseInt(page.get());
+            } else {
+                pageInt = 1;
+            }
+        } catch (Exception e) {
+            pageInt = 1;
+        }
+        Pageable pageable = PageRequest.of(pageInt - 1, 3);
+        Page<Order> pageOrder = this.productService.fetchAllOrders(pageable);
+        List<Order> orders = pageOrder.getContent();
         model.addAttribute("orders", orders);
+        model.addAttribute("totalPages", pageOrder.getTotalPages());
+        model.addAttribute("currentPage", pageInt);
         return "admin/order/order";
     }
 

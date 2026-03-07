@@ -1,5 +1,12 @@
 package com.vinhung.laptopshop.controller.admin;
 
+import java.lang.foreign.Linker.Option;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -75,8 +82,24 @@ public class ProductController {
     }
 
     @GetMapping
-    public String getProductsPage(Model model) {
-        model.addAttribute("products", this.productService.getAllProducts());
+    public String getProductsPage(Model model,
+            @RequestParam(value = "page", defaultValue = "1") Optional<String> page) {
+        int pageInt = 1;
+        try {
+            if (page.isPresent()) {
+                pageInt = Integer.parseInt(page.get());
+            } else {
+                pageInt = 1;
+            }
+        } catch (Exception e) {
+            pageInt = 1;
+        }
+        Pageable pageable = PageRequest.of(pageInt - 1, 3);
+        Page<Product> pageProduct = this.productService.getAllProducts(pageable);
+        List<Product> products = pageProduct.getContent();
+        model.addAttribute("products", products);
+        model.addAttribute("totalPages", pageProduct.getTotalPages());
+        model.addAttribute("currentPage", pageInt);
         return "admin/product/product";
     }
 }
