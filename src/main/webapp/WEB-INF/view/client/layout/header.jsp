@@ -74,7 +74,9 @@
                                     </div>
                                     <c:out value="${pageContext.request.userPrincipal.name}" />
                                 </c:if>
-
+                                <c:if test="${empty pageContext.request.userPrincipal}">
+                                    <a class="btn btn-primary" href="/login">Login</a>
+                                </c:if>
 
 
                             </div>

@@ -2,6 +2,9 @@ package com.vinhung.laptopshop.controller.admin;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -95,8 +98,13 @@ public class UserController {
     }
 
     @GetMapping
-    public String list(Model model) {
-        model.addAttribute("users", userService.getAllUser());
+    public String list(Model model, @RequestParam(value = "page", defaultValue = "1") int page) {
+        Pageable pageable = PageRequest.of(page - 1, 5);
+        Page<User> pageUser = userService.getAllUser(pageable);
+        List<User> users = pageUser.getContent();
+        model.addAttribute("users", users);
+        model.addAttribute("totalPages", pageUser.getTotalPages());
+        model.addAttribute("currentPage", page);
         return "admin/user/users";
     }
 }
