@@ -20,6 +20,9 @@ public class UploadFileService {
     }
 
     public String uploadFile(MultipartFile file, String folder) {
+        if (file.isEmpty()) {
+            return "";
+        }
         try {
             byte[] bytes = file.getBytes();
 

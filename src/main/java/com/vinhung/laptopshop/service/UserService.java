@@ -2,12 +2,17 @@ package com.vinhung.laptopshop.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.vinhung.laptopshop.domain.Role;
 import com.vinhung.laptopshop.domain.User;
+import com.vinhung.laptopshop.domain.dto.RegisterDto;
+import com.vinhung.laptopshop.repository.OrderRepository;
+import com.vinhung.laptopshop.repository.ProductRepository;
 import com.vinhung.laptopshop.repository.UserRepository;
 
 @Service
@@ -17,13 +22,22 @@ public class UserService {
     private final UploadFileService uploadFileService;
     private final PasswordEncoder passwordEncoder;
     private final RoleService roleService;
+    private final OrderRepository orderRepository;
+    private final ProductRepository productRepository;
 
     public UserService(UserRepository userRepository, UploadFileService uploadFileService,
-            PasswordEncoder passwordEncoder, RoleService roleService) {
+            PasswordEncoder passwordEncoder, RoleService roleService, OrderRepository orderRepository,
+            ProductRepository productRepository) {
         this.userRepository = userRepository;
         this.uploadFileService = uploadFileService;
         this.passwordEncoder = passwordEncoder;
         this.roleService = roleService;
+        this.orderRepository = orderRepository;
+        this.productRepository = productRepository;
+    }
+
+    public Page<User> getAllUser(Pageable pageable) {
+        return this.userRepository.findAll(pageable);
     }
 
     public List<User> getAllUser() {
@@ -66,4 +80,37 @@ public class UserService {
         }
         return null;
     }
+
+    public User UserDtoRegister(RegisterDto registerDto) {
+
+        User user = new User();
+        user.setFullName(registerDto.getFirstName() + " " + registerDto.getLastName());
+        user.setEmail(registerDto.getEmail());
+        user.setPassword(this.passwordEncoder.encode(registerDto.getPassword()));
+        user.setRole(this.roleService.getRoleByName("USER"));
+        user.setAvatar("default.png");
+
+        return this.userRepository.save(user);
+    }
+
+    public boolean checkEmailExist(String email) {
+        return this.userRepository.existsByEmail(email);
+    }
+
+    public User findByEmail(String email) {
+        return this.userRepository.findByEmail(email);
+    }
+
+    public long countUser() {
+        return this.userRepository.count();
+    }
+
+    public long countOrder() {
+        return this.orderRepository.count();
+    }
+
+    public long countProduct() {
+        return this.productRepository.count();
+    }
+
 }
