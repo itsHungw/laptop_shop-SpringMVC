@@ -11,12 +11,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.vinhung.laptopshop.domain.Cart;
 import com.vinhung.laptopshop.domain.CartDetail;
 import com.vinhung.laptopshop.domain.Order;
+import com.vinhung.laptopshop.domain.Product;
 import com.vinhung.laptopshop.domain.User;
 import com.vinhung.laptopshop.service.ProductService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import java.util.List;
 
 @Controller
@@ -32,6 +37,41 @@ public class ProductItemController {
     public String getProductItem(@PathVariable Long id, Model model) {
         model.addAttribute("product", productService.getProductById(id));
         return "client/product/detail";
+    }
+
+    @GetMapping("/products")
+    public String getProductPage(Model model,
+            @RequestParam(name = "page", defaultValue = "1") int page,
+            @RequestParam(name = "factory", required = false) List<String> factory,
+            @RequestParam(name = "target", required = false) List<String> target,
+            @RequestParam(name = "price", required = false) List<String> price,
+            @RequestParam(name = "sort", required = false) String sort,
+            HttpServletRequest request) {
+
+        Pageable pageable = PageRequest.of(page - 1, 6);
+        if (sort != null && !sort.isEmpty()) {
+            if (sort.equals("gia-tang-dan")) {
+                pageable = PageRequest.of(page - 1, 6, Sort.by(Sort.Direction.ASC, "price"));
+            } else if (sort.equals("gia-giam-dan")) {
+                pageable = PageRequest.of(page - 1, 6, Sort.by(Sort.Direction.DESC, "price"));
+            }
+        }
+
+        Page<Product> prs = this.productService.fetchProductsWithFilters(pageable, factory, target, price);
+        List<Product> listProducts = prs.getContent();
+
+        // Get query string to handle pagination
+        String queryString = request.getQueryString();
+        if (queryString != null && !queryString.isBlank()) {
+            queryString = queryString.replace("page=" + page, "");
+        }
+
+        model.addAttribute("products", listProducts);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", prs.getTotalPages());
+        model.addAttribute("queryString", queryString);
+
+        return "client/product/show";
     }
 
     @PostMapping("/add-product-to-cart/{id}")

@@ -20,6 +20,7 @@ import com.vinhung.laptopshop.repository.CartRepository;
 import com.vinhung.laptopshop.repository.OrderDetailRepository;
 import com.vinhung.laptopshop.repository.OrderRepository;
 import com.vinhung.laptopshop.repository.ProductRepository;
+import org.springframework.data.jpa.domain.Specification;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -64,6 +65,63 @@ public class ProductService {
 
     public Page<Product> getAllProducts(Pageable pageable) {
         return productRepository.findAll(pageable);
+    }
+
+    public Page<Product> fetchProductsWithFilters(Pageable pageable, List<String> factory, List<String> target,
+            List<String> price) {
+        Specification<Product> spec = Specification.where(null);
+
+        if (factory != null && !factory.isEmpty()) {
+            spec = spec.and((root, query, criteriaBuilder) -> root.get("factory").in(factory));
+        }
+
+        if (target != null && !target.isEmpty()) {
+            spec = spec.and((root, query, criteriaBuilder) -> root.get("target").in(target));
+        }
+
+        if (price != null && !price.isEmpty()) {
+            Specification<Product> priceSpecs = Specification.where(null);
+
+            for (String p : price) {
+                double min = 0;
+                double max = 0;
+
+                switch (p) {
+                    case "under-10":
+                        min = 1;
+                        max = 10000000;
+                        break;
+                    case "10-15":
+                        min = 10000000;
+                        max = 15000000;
+                        break;
+                    case "15-20":
+                        min = 15000000;
+                        max = 20000000;
+                        break;
+                    case "above-20":
+                        min = 20000000;
+                        max = 200000000;
+                        break;
+                }
+
+                if (min != 0 && max != 0) {
+                    final double finalMin = min;
+                    final double finalMax = max;
+                    Specification<Product> rangeSpec = (root, query, criteriaBuilder) -> criteriaBuilder.between(
+                            root.get("price"), finalMin,
+                            finalMax);
+                    if (priceSpecs == null) {
+                        priceSpecs = rangeSpec;
+                    } else {
+                        priceSpecs = priceSpecs.or(rangeSpec);
+                    }
+                }
+            }
+            spec = spec.and(priceSpecs);
+        }
+
+        return this.productRepository.findAll(spec, pageable);
     }
 
     public Product getProductById(Long id) {
