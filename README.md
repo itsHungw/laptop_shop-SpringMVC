@@ -1,4 +1,4 @@
-# 💻 Laptop Shop - Spring Boot MVC Project
+# Laptop Shop - Spring Boot MVC Project
 
 [![Spring Boot](https://img.shields.io/badge/Spring--Boot-3.4.3-brightgreen)](https://spring.io/projects/spring-boot)
 [![Java](https://img.shields.io/badge/Java-21-orange)](https://www.oracle.com/java/)
@@ -15,11 +15,11 @@
 <a name="en-english"></a>
 ## 🇬🇧 English
 
-### 📝 Overview
+###  Overview
 **Laptop Shop** is a modern e-commerce web application specialized in laptops, built using the **Spring Boot** framework. The project implements a robust architecture with a client-facing store and a comprehensive admin management panel.
 
-### 🚀 Key Features
-#### **🛒 Client Side**
+###  Key Features
+#### ** Client Side**
 - **Authentication**: Secure register, login, and logout.
 - **Product Explorer**:
     - Browse products by category.
@@ -29,19 +29,19 @@
 - **Shopping Cart**: Add/remove products, update quantities, and persistent storage.
 - **User Profile**: Manage personal information and avatars.
 
-#### **🔒 Admin Side (Dashboard)**
+#### ** Admin Side (Dashboard)**
 - **User Management**: Manage accounts and roles.
 - **Product Management**: Full CRUD (Create, Read, Update, Delete) with image upload support.
 - **Order Management**: Track and update status of customer orders.
 - **Statistics**: Overview of system metrics.
 
-### 🛠️ Tech Stack
+###  Tech Stack
 - **Backend**: Java 21, Spring Boot 3.4.3, Spring MVC, Spring Data JPA, Spring Security.
 - **Database**: MySQL.
 - **Frontend**: JSP, JSTL, Bootstrap 5, FontAwesome, jQuery.
 - **Validation**: Spring Boot Validation (Hibernate Validator).
 
-### ⚙️ Setup & Installation
+###  Setup & Installation
 1. **Clone the repository**:
    ```bash
    git clone https://github.com/itsHungw/laptop_shop-SpringMVC.git
@@ -65,11 +65,11 @@
 <a name="vn-tiếng-việt"></a>
 ## 🇻🇳 Tiếng Việt
 
-### 📝 Giới thiệu
+###  Giới thiệu
 **Laptop Shop** là một ứng dụng web thương mại điện tử hiện đại chuyên về laptop, được xây dựng trên nền tảng **Spring Boot**. Dự án triển khai kiến trúc mạnh mẽ với đầy đủ giao diện cho khách hàng và bảng quản trị (Admin panel) toàn diện.
 
-### 🚀 Các Tính Năng Chính
-#### **🛒 Phía Người Dùng (Client)**
+###  Các Tính Năng Chính
+#### ** Phía Người Dùng (Client)**
 - **Xác thực**: Đăng ký, đăng nhập và đăng xuất bảo mật.
 - **Khám phá sản phẩm**:
     - Duyệt sản phẩm theo danh mục.
@@ -79,19 +79,19 @@
 - **Giỏ hàng**: Thêm/xóa sản phẩm, cập nhật số lượng và lưu trữ trạng thái.
 - **Hồ sơ cá nhân**: Quản lý thông tin cá nhân và ảnh đại diện.
 
-#### **🔒 Phía Quản Trị (Admin)**
+#### ** Phía Quản Trị (Admin)**
 - **Quản lý người dùng**: Quản lý tài khoản và phân quyền.
 - **Quản lý sản phẩm**: Đầy đủ CRUD (Thêm, Xem, Sửa, Xóa) tích hợp tải lên hình ảnh.
 - **Quản lý đơn hàng**: Theo dõi và cập nhật trạng thái đơn hàng của khách.
 - **Thống kê**: Tổng quan các chỉ số của hệ thống.
 
-### 🛠️ Công Nghệ Sử Dụng
+###  Công Nghệ Sử Dụng
 - **Backend**: Java 21, Spring Boot 3.4.3, Spring MVC, Spring Data JPA, Spring Security.
 - **Cơ sở dữ liệu**: MySQL.
 - **Frontend**: JSP, JSTL, Bootstrap 5, FontAwesome, jQuery.
 - **Validation**: Spring Boot Validation (Hibernate Validator).
 
-### ⚙️ Hướng Dẫn Cài Đặt
+###  Hướng Dẫn Cài Đặt
 1. **Clone project**:
    ```bash
    git clone https://github.com/itsHungw/laptop_shop-SpringMVC.git
